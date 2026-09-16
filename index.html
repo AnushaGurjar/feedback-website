@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Feedback</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #FBF6EC;
+      color: #46290F;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 24px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 650px;
+    }
+
+    .card {
+      background: #F2EADA;
+      border: 2px solid #6B4226;
+      border-radius: 22px;
+      padding: 35px;
+      box-shadow: 0 10px 30px rgba(70, 41, 15, 0.12);
+    }
+
+    .top-line {
+      width: 70px;
+      height: 5px;
+      background: #E1592F;
+      border-radius: 10px;
+      margin-bottom: 22px;
+    }
+
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .subtitle {
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 30px;
+      opacity: 0.85;
+    }
+
+    .section-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 16px;
+    }
+
+    .rating-container {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin: 20px 0;
+      flex-wrap: wrap;
+    }
+
+    .target-btn {
+      border: 2px solid #6B4226;
+      background: #FBF6EC;
+      width: 68px;
+      height: 68px;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 32px;
+      transition: 0.2s ease;
+      color: #6B4226;
+    }
+
+    .target-btn:hover {
+      transform: translateY(-3px);
+      border-color: #E1592F;
+    }
+
+    .target-btn.active {
+      background: #E1592F;
+      color: #FBF6EC;
+      border-color: #E1592F;
+      transform: scale(1.08);
+    }
+
+    .rating-message {
+      text-align: center;
+      font-size: 18px;
+      font-weight: bold;
+      min-height: 28px;
+      color: #E1592F;
+      margin-bottom: 28px;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 140px;
+      resize: vertical;
+      border: 2px solid #6B4226;
+      border-radius: 14px;
+      background: #FBF6EC;
+      color: #46290F;
+      padding: 15px;
+      font-family: inherit;
+      font-size: 15px;
+      outline: none;
+    }
+
+    textarea:focus {
+      border-color: #E1592F;
+    }
+
+    .counter {
+      text-align: right;
+      font-size: 12px;
+      margin-top: 6px;
+      opacity: 0.7;
+    }
+
+    .submit-btn {
+      width: 100%;
+      margin-top: 24px;
+      padding: 15px;
+      border: 2px solid #6B4226;
+      border-radius: 13px;
+      background: #6B4226;
+      color: #FBF6EC;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.2s ease;
+    }
+
+    .submit-btn:hover {
+      background: #E1592F;
+      border-color: #E1592F;
+    }
+
+    .submit-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .success {
+      display: none;
+      text-align: center;
+      padding: 30px 10px 10px;
+    }
+
+    .success-icon {
+      font-size: 48px;
+      margin-bottom: 15px;
+    }
+
+    .success h2 {
+      margin-bottom: 10px;
+    }
+
+    .success p {
+      line-height: 1.6;
+    }
+
+    @media (max-width: 520px) {
+      .card {
+        padding: 25px 20px;
+      }
+
+      h1 {
+        font-size: 27px;
+      }
+
+      .target-btn {
+        width: 58px;
+        height: 58px;
+        font-size: 27px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="card" id="feedbackCard">
+
+      <div class="top-line"></div>
+
+      <h1>Share Your Feedback</h1>
+
+      <p class="subtitle">
+        Your feedback helps us understand what went well and where we can improve.
+      </p>
+
+      <div class="section-title">
+        How would you rate your experience?
+      </div>
+
+      <div class="rating-container">
+
+        <button class="target-btn" data-rating="1" aria-label="1 out of 5">◎</button>
+
+        <button class="target-btn" data-rating="2" aria-label="2 out of 5">◎</button>
+
+        <button class="target-btn" data-rating="3" aria-label="3 out of 5">◎</button>
+
+        <button class="target-btn" data-rating="4" aria-label="4 out of 5">◎</button>
+
+        <button class="target-btn" data-rating="5" aria-label="5 out of 5">◎</button>
+
+      </div>
+
+      <div class="rating-message" id="ratingMessage">
+        Please select a rating
+      </div>
+
+      <div class="section-title">
+        Anything you'd like to add? <span style="font-weight: normal;">(Optional)</span>
+      </div>
+
+      <textarea
+        id="description"
+        maxlength="3000"
+        placeholder="Write your feedback here..."
+      ></textarea>
+
+      <div class="counter">
+        <span id="counter">0</span>/3000
+      </div>
+
+      <button class="submit-btn" id="submitBtn">
+        Submit Feedback
+      </button>
+
+      <div class="success" id="successMessage">
+        <div class="success-icon">✓</div>
+        <h2>Thank You!</h2>
+        <p>Your feedback has been submitted successfully.</p>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    // YOUR GOOGLE APPS SCRIPT BACKEND
+    const ENDPOINT_URL =
+      "https://script.google.com/macros/s/AKfycbz1R0DUGDwTjgDzCeYX1b3UgbGTMnSSLhKd3AUm4BYkFuFHPlOMvHR-2LlQ1u1KZ0eT/exec";
+
+
+    const ratingButtons = document.querySelectorAll(".target-btn");
+    const ratingMessage = document.getElementById("ratingMessage");
+    const description = document.getElementById("description");
+    const counter = document.getElementById("counter");
+    const submitBtn = document.getElementById("submitBtn");
+
+    let selectedRating = 0;
+
+    const messages = {
+      1: "Can improve",
+      2: "Good",
+      3: "Nice execution",
+      4: "Great Efforts!",
+      5: "Excellent!"
+    };
+
+
+    ratingButtons.forEach(button => {
+
+      button.addEventListener("click", () => {
+
+        selectedRating = Number(button.dataset.rating);
+
+        ratingButtons.forEach(btn => {
+          btn.classList.remove("active");
+        });
+
+        for (let i = 0; i < selectedRating; i++) {
+          ratingButtons[i].classList.add("active");
+        }
+
+        ratingMessage.textContent = messages[selectedRating];
+
+      });
+
+    });
+
+
+    description.addEventListener("input", () => {
+      counter.textContent = description.value.length;
+    });
+
+
+    submitBtn.addEventListener("click", async () => {
+
+      if (selectedRating === 0) {
+        alert("Please select a rating first.");
+        return;
+      }
+
+      submitBtn.disabled = true;
+      submitBtn.textContent = "Submitting...";
+
+      const payload = {
+        rating: selectedRating,
+        message: messages[selectedRating],
+        description: description.value.trim()
+      };
+
+      try {
+
+        await fetch(ENDPOINT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(payload)
+        });
+
+        document.querySelector(".top-line").style.display = "none";
+        document.querySelector("h1").style.display = "none";
+        document.querySelector(".subtitle").style.display = "none";
+        document.querySelector(".section-title").style.display = "none";
+        document.querySelector(".rating-container").style.display = "none";
+        ratingMessage.style.display = "none";
+        description.style.display = "none";
+        document.querySelector(".counter").style.display = "none";
+        submitBtn.style.display = "none";
+
+        document.getElementById("successMessage").style.display = "block";
+
+      } catch (error) {
+
+        console.error(error);
+
+        alert("Something went wrong. Please try again.");
+
+        submitBtn.disabled = false;
+        submitBtn.textContent = "Submit Feedback";
+
+      }
+
+    });
+
+  </script>
+
+</body>
+</html>
