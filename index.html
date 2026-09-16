@@ -65,11 +65,13 @@
     .rating-container {
       display: flex;
       justify-content: center;
+      align-items: center;
       gap: 14px;
       margin: 20px 0;
       flex-wrap: wrap;
     }
 
+    /* 🎯 Target buttons */
     .target-btn {
       border: 2px solid #6B4226;
       background: #FBF6EC;
@@ -77,21 +79,34 @@
       height: 68px;
       border-radius: 50%;
       cursor: pointer;
-      font-size: 32px;
-      transition: 0.2s ease;
-      color: #6B4226;
+
+      /* Keep the actual emoji visible */
+      font-family: "Segoe UI Emoji", "Apple Color Emoji",
+                   "Noto Color Emoji", sans-serif;
+      font-size: 38px;
+      line-height: 1;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      padding: 0;
+      transition: transform 0.2s ease,
+                  border-color 0.2s ease,
+                  background 0.2s ease;
     }
 
     .target-btn:hover {
-      transform: translateY(-3px);
+      transform: translateY(-3px) scale(1.03);
       border-color: #E1592F;
     }
 
+    /* Selected targets */
     .target-btn.active {
-      background: #E1592F;
-      color: #FBF6EC;
+      background: #FFF3E8;
       border-color: #E1592F;
       transform: scale(1.08);
+      box-shadow: 0 4px 12px rgba(225, 89, 47, 0.20);
     }
 
     .rating-message {
@@ -161,6 +176,7 @@
     .success-icon {
       font-size: 48px;
       margin-bottom: 15px;
+      color: #E1592F;
     }
 
     .success h2 {
@@ -183,7 +199,11 @@
       .target-btn {
         width: 58px;
         height: 58px;
-        font-size: 27px;
+        font-size: 32px;
+      }
+
+      .rating-container {
+        gap: 10px;
       }
     }
   </style>
@@ -209,15 +229,20 @@
 
       <div class="rating-container">
 
-        <button class="target-btn" data-rating="1" aria-label="1 out of 5">◎</button>
+        <button type="button" class="target-btn"
+          data-rating="1" aria-label="1 out of 5">🎯</button>
 
-        <button class="target-btn" data-rating="2" aria-label="2 out of 5">◎</button>
+        <button type="button" class="target-btn"
+          data-rating="2" aria-label="2 out of 5">🎯</button>
 
-        <button class="target-btn" data-rating="3" aria-label="3 out of 5">◎</button>
+        <button type="button" class="target-btn"
+          data-rating="3" aria-label="3 out of 5">🎯</button>
 
-        <button class="target-btn" data-rating="4" aria-label="4 out of 5">◎</button>
+        <button type="button" class="target-btn"
+          data-rating="4" aria-label="4 out of 5">🎯</button>
 
-        <button class="target-btn" data-rating="5" aria-label="5 out of 5">◎</button>
+        <button type="button" class="target-btn"
+          data-rating="5" aria-label="5 out of 5">🎯</button>
 
       </div>
 
@@ -226,7 +251,8 @@
       </div>
 
       <div class="section-title">
-        Anything you'd like to add? <span style="font-weight: normal;">(Optional)</span>
+        Anything you'd like to add?
+        <span style="font-weight: normal;">(Optional)</span>
       </div>
 
       <textarea
@@ -239,7 +265,7 @@
         <span id="counter">0</span>/3000
       </div>
 
-      <button class="submit-btn" id="submitBtn">
+      <button type="button" class="submit-btn" id="submitBtn">
         Submit Feedback
       </button>
 
@@ -255,7 +281,7 @@
 
   <script>
 
-    // YOUR GOOGLE APPS SCRIPT BACKEND
+    // GOOGLE APPS SCRIPT BACKEND
     const ENDPOINT_URL =
       "https://script.google.com/macros/s/AKfycbz1R0DUGDwTjgDzCeYX1b3UgbGTMnSSLhKd3AUm4BYkFuFHPlOMvHR-2LlQ1u1KZ0eT/exec";
 
@@ -277,6 +303,7 @@
     };
 
 
+    /* Rating selection */
     ratingButtons.forEach(button => {
 
       button.addEventListener("click", () => {
@@ -298,11 +325,13 @@
     });
 
 
+    /* Character counter */
     description.addEventListener("input", () => {
       counter.textContent = description.value.length;
     });
 
 
+    /* Submit feedback */
     submitBtn.addEventListener("click", async () => {
 
       if (selectedRating === 0) {
@@ -330,6 +359,7 @@
           body: JSON.stringify(payload)
         });
 
+        /* Hide form after successful submission */
         document.querySelector(".top-line").style.display = "none";
         document.querySelector("h1").style.display = "none";
         document.querySelector(".subtitle").style.display = "none";
