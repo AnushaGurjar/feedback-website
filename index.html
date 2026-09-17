@@ -65,18 +65,25 @@
     .rating-container {
       display: flex;
       justify-content: center;
-      align-items: center;
-      gap: 14px;
-      margin: 20px 0;
+      align-items: flex-start;
+      gap: 16px;
+      margin: 25px 0;
       flex-wrap: wrap;
     }
 
-    /* 🎯 Target buttons - Updated for SVG Bullet Icons */
+    .rating-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 80px;
+    }
+
+    /* Circular Bullet Buttons */
     .target-btn {
       border: 2px solid #6B4226;
       background: #FBF6EC;
-      width: 68px;
-      height: 68px;
+      width: 72px;
+      height: 72px;
       border-radius: 50%;
       cursor: pointer;
 
@@ -84,61 +91,52 @@
       align-items: center;
       justify-content: center;
 
-      padding: 0;
-      transition: transform 0.2s ease,
-                  border-color 0.2s ease,
-                  background 0.2s ease;
+      padding: 6px;
+      transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
     }
 
-    /* Custom SVG Bullet Color Handling */
-    .bullet-svg {
-      width: 24px;
-      height: 42px;
-      transition: all 0.2s ease;
-    }
-
-    .bullet-body {
-      fill: #FBF6EC;
-      stroke: #6B4226;
-      stroke-width: 2;
-      transition: fill 0.2s ease, stroke 0.2s ease;
-    }
-
-    .bullet-line {
-      stroke: #6B4226;
-      stroke-width: 1.5;
-      stroke-dasharray: 2,2;
-      transition: stroke 0.2s ease;
+    .bullet-img {
+      width: auto;
+      height: 52px;
+      object-fit: contain;
+      filter: grayscale(0.2);
+      transition: transform 0.2s ease, filter 0.2s ease;
     }
 
     .target-btn:hover {
-      transform: translateY(-3px) scale(1.03);
+      transform: translateY(-3px) scale(1.04);
       border-color: #E1592F;
     }
 
-    .target-btn:hover .bullet-body {
-      stroke: #E1592F;
+    .target-btn:hover .bullet-img {
+      filter: grayscale(0) drop-shadow(0 2px 4px rgba(225, 89, 47, 0.3));
     }
 
-    .target-btn:hover .bullet-line {
-      stroke: #E1592F;
-    }
-
-    /* Selected targets */
+    /* Selected state */
     .target-btn.active {
       background: #FFF3E8;
       border-color: #E1592F;
       transform: scale(1.08);
-      box-shadow: 0 4px 12px rgba(225, 89, 47, 0.20);
+      box-shadow: 0 4px 12px rgba(225, 89, 47, 0.25);
     }
 
-    .target-btn.active .bullet-body {
-      fill: #E1592F;
-      stroke: #E1592F;
+    .target-btn.active .bullet-img {
+      filter: grayscale(0) drop-shadow(0 3px 6px rgba(107, 66, 38, 0.4));
     }
 
-    .target-btn.active .bullet-line {
-      stroke: #FBF6EC;
+    .rating-number {
+      font-size: 20px;
+      font-weight: bold;
+      color: #46290F;
+      margin-top: 10px;
+    }
+
+    .rating-label {
+      font-size: 13px;
+      color: #6B4226;
+      text-align: center;
+      margin-top: 4px;
+      line-height: 1.2;
     }
 
     .rating-message {
@@ -221,11 +219,19 @@
 
     @media (max-width: 520px) {
       .card {
-        padding: 25px 20px;
+        padding: 25px 16px;
       }
 
       h1 {
-        font-size: 27px;
+        font-size: 26px;
+      }
+
+      .rating-container {
+        gap: 8px;
+      }
+
+      .rating-item {
+        width: 60px;
       }
 
       .target-btn {
@@ -233,13 +239,16 @@
         height: 58px;
       }
 
-      .bullet-svg {
-        width: 20px;
-        height: 36px;
+      .bullet-img {
+        height: 40px;
       }
 
-      .rating-container {
-        gap: 10px;
+      .rating-number {
+        font-size: 17px;
+      }
+
+      .rating-label {
+        font-size: 11px;
       }
     }
   </style>
@@ -265,50 +274,45 @@
 
       <div class="rating-container">
 
-        <button type="button" class="target-btn" data-rating="1" aria-label="1 out of 5">
-          <svg class="bullet-svg" viewBox="0 0 24 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path class="bullet-body" d="M 4,20 C 4,10 12,2 12,2 C 12,2 20,10 20,20 L 20,44 C 20,45.5 18.5,46 12,46 C 5.5,46 4,45.5 4,44 Z"/>
-            <line class="bullet-line" x1="8" y1="18" x2="8" y2="38"/>
-            <line class="bullet-line" x1="12" y1="16" x2="12" y2="40"/>
-            <line class="bullet-line" x1="16" y1="18" x2="16" y2="38"/>
-          </svg>
-        </button>
+        <div class="rating-item">
+          <button type="button" class="target-btn" data-rating="1" aria-label="1 out of 5">
+            <img src="https://images.rawpixel.com/image_png_800/20211019/rawpixel-item-6058097-png.png" alt="Bullet" class="bullet-img">
+          </button>
+          <div class="rating-number">1</div>
+          <div class="rating-label">Can improve</div>
+        </div>
 
-        <button type="button" class="target-btn" data-rating="2" aria-label="2 out of 5">
-          <svg class="bullet-svg" viewBox="0 0 24 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path class="bullet-body" d="M 4,20 C 4,10 12,2 12,2 C 12,2 20,10 20,20 L 20,44 C 20,45.5 18.5,46 12,46 C 5.5,46 4,45.5 4,44 Z"/>
-            <line class="bullet-line" x1="8" y1="18" x2="8" y2="38"/>
-            <line class="bullet-line" x1="12" y1="16" x2="12" y2="40"/>
-            <line class="bullet-line" x1="16" y1="18" x2="16" y2="38"/>
-          </svg>
-        </button>
+        <div class="rating-item">
+          <button type="button" class="target-btn" data-rating="2" aria-label="2 out of 5">
+            <img src="https://images.rawpixel.com/image_png_800/20211019/rawpixel-item-6058097-png.png" alt="Bullet" class="bullet-img">
+          </button>
+          <div class="rating-number">2</div>
+          <div class="rating-label">Good</div>
+        </div>
 
-        <button type="button" class="target-btn" data-rating="3" aria-label="3 out of 5">
-          <svg class="bullet-svg" viewBox="0 0 24 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path class="bullet-body" d="M 4,20 C 4,10 12,2 12,2 C 12,2 20,10 20,20 L 20,44 C 20,45.5 18.5,46 12,46 C 5.5,46 4,45.5 4,44 Z"/>
-            <line class="bullet-line" x1="8" y1="18" x2="8" y2="38"/>
-            <line class="bullet-line" x1="12" y1="16" x2="12" y2="40"/>
-            <line class="bullet-line" x1="16" y1="18" x2="16" y2="38"/>
-          </svg>
-        </button>
+        <div class="rating-item">
+          <button type="button" class="target-btn" data-rating="3" aria-label="3 out of 5">
+            <img src="https://images.rawpixel.com/image_png_800/20211019/rawpixel-item-6058097-png.png" alt="Bullet" class="bullet-img">
+          </button>
+          <div class="rating-number">3</div>
+          <div class="rating-label">Nice execution</div>
+        </div>
 
-        <button type="button" class="target-btn" data-rating="4" aria-label="4 out of 5">
-          <svg class="bullet-svg" viewBox="0 0 24 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path class="bullet-body" d="M 4,20 C 4,10 12,2 12,2 C 12,2 20,10 20,20 L 20,44 C 20,45.5 18.5,46 12,46 C 5.5,46 4,45.5 4,44 Z"/>
-            <line class="bullet-line" x1="8" y1="18" x2="8" y2="38"/>
-            <line class="bullet-line" x1="12" y1="16" x2="12" y2="40"/>
-            <line class="bullet-line" x1="16" y1="18" x2="16" y2="38"/>
-          </svg>
-        </button>
+        <div class="rating-item">
+          <button type="button" class="target-btn" data-rating="4" aria-label="4 out of 5">
+            <img src="https://images.rawpixel.com/image_png_800/20211019/rawpixel-item-6058097-png.png" alt="Bullet" class="bullet-img">
+          </button>
+          <div class="rating-number">4</div>
+          <div class="rating-label">Great Efforts!</div>
+        </div>
 
-        <button type="button" class="target-btn" data-rating="5" aria-label="5 out of 5">
-          <svg class="bullet-svg" viewBox="0 0 24 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path class="bullet-body" d="M 4,20 C 4,10 12,2 12,2 C 12,2 20,10 20,20 L 20,44 C 20,45.5 18.5,46 12,46 C 5.5,46 4,45.5 4,44 Z"/>
-            <line class="bullet-line" x1="8" y1="18" x2="8" y2="38"/>
-            <line class="bullet-line" x1="12" y1="16" x2="12" y2="40"/>
-            <line class="bullet-line" x1="16" y1="18" x2="16" y2="38"/>
-          </svg>
-        </button>
+        <div class="rating-item">
+          <button type="button" class="target-btn" data-rating="5" aria-label="5 out of 5">
+            <img src="https://images.rawpixel.com/image_png_800/20211019/rawpixel-item-6058097-png.png" alt="Bullet" class="bullet-img">
+          </button>
+          <div class="rating-number">5</div>
+          <div class="rating-label">Excellent!</div>
+        </div>
 
       </div>
 
